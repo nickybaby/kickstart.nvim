@@ -110,13 +110,36 @@ do
   vim.o.number = true
   -- You can also add relative line numbers, to help with jumping.
   --  Experiment for yourself to see if you like it!
-  -- vim.o.relativenumber = true
+  vim.o.relativenumber = true
 
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
 
   -- Don't show the mode, since it's already in the status line
   vim.o.showmode = false
+
+  -- popup menu height
+  vim.o.pumheight = 10
+  -- popup transparency
+  vim.o.pumblend = 10
+  -- floating window transparency
+  vim.o.winblend = 0
+  -- dont hide markup
+  vim.o.conceallevel = 0
+  -- dont hide cursor in markup
+  vim.o.concealcursor = ""
+
+  vim.o.backup = false
+  vim.o.writebackup = false
+  vim.o.swapfile = false
+  vim.o.errorbells = false
+  vim.o.backspace = "indent,eol,start"
+  vim.o.selection = "inclusive"
+  vim.opt.clipboard:append("unnamedplus")
+  vim.o.encoding = "UTF-8"
+  vim.o.updatetime = 300
+  vim.o.synmaxcol = 500
+
 
   -- Sync clipboard between OS and Neovim.
   --  Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -136,6 +159,10 @@ do
 
   -- Keep signcolumn on by default
   vim.o.signcolumn = 'yes'
+  -- show colorcolumn at 120 chars
+  vim.o.colorcolumn = "120"
+  -- completion options
+  vim.o.completeopt = "menuone,noinsert,noselect"
 
   -- Decrease update time
   vim.o.updatetime = 250
@@ -164,8 +191,26 @@ do
   -- Show which line your cursor is on
   vim.o.cursorline = true
 
+  -- Don't wrap lines by default
+  vim.o.wrap = false
+
   -- Minimal number of screen lines to keep above and below the cursor.
   vim.o.scrolloff = 10
+
+  -- tab width
+  vim.o.tabstop = 4
+  -- indent width
+  vim.o.shiftwidth = 4
+  -- soft tab stop not tabs on tab/backspace
+  vim.o.softtabstop = 4
+  -- smart auto-indent
+  vim.o.smartindent = true
+  -- copies indent from curr line
+  vim.o.autoindent = true
+  -- highlight search matches
+  vim.o.hlsearch = true
+  -- show matches when typing
+  vim.o.incsearch = true
 
   -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
   -- instead raise a dialog asking if you wish to save the current file(s)
@@ -383,18 +428,10 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'folke/tokyonight.nvim' }
-  ---@diagnostic disable-next-line: missing-fields
-  require('tokyonight').setup {
-    styles = {
-      comments = { italic = false }, -- Disable italics in comments
-    },
-  }
+  vim.pack.add({"https://github.com/AlexvZyl/nordic.nvim"})
+  vim.cmd("colorscheme nordic")
 
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'tokyonight-night'
+  vim.o.termguicolors = true
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -534,7 +571,7 @@ do
       -- Jump to the definition of the word under your cursor.
       -- This is where a variable was first declared, or where a function is defined, etc.
       -- To jump back, press <C-t>.
-      vim.keymap.set('n', 'grd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
+      vim.keymap.set('n', 'gd', builtin.lsp_definitions, { buffer = buf, desc = '[G]oto [D]efinition' })
 
       -- Fuzzy find all the symbols in your current document.
       -- Symbols are things like variables, functions, types, etc.
@@ -686,7 +723,8 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
+    ty = {},
+    clangd = {},
     -- gopls = {},
     -- pyright = {},
     -- rust_analyzer = {},
@@ -962,10 +1000,10 @@ do
   --
   -- require 'kickstart.plugins.debug'
   -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
